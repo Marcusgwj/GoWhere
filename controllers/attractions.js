@@ -5,12 +5,12 @@ const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 const { cloudinary } = require("../cloudinary");
 
 module.exports.index = async (req, res) => {
-  const campgrounds = await Campground.find({}).populate("popupText");
-  res.render("campgrounds/index", { campgrounds });
+  const attractions = await Campground.find({}).populate("popupText");
+  res.render("attractions/index", { attractions });
 };
 
 module.exports.renderNewForm = (req, res) => {
-  res.render("campgrounds/new");
+  res.render("attractions/new");
 };
 
 module.exports.createCampground = async (req, res, next) => {
@@ -29,7 +29,7 @@ module.exports.createCampground = async (req, res, next) => {
   campground.author = req.user._id;
   await campground.save();
   req.flash("success", "Successfully made a new campground!");
-  res.redirect(`/campgrounds/${campground._id}`);
+  res.redirect(`/attractions/${campground._id}`);
 };
 
 module.exports.showCampground = async (req, res) => {
@@ -43,9 +43,9 @@ module.exports.showCampground = async (req, res) => {
     .populate("author");
   if (!campground) {
     req.flash("error", "Cannot find that campground!");
-    return res.redirect("/campgrounds");
+    return res.redirect("/attractions");
   }
-  res.render("campgrounds/show", { campground });
+  res.render("attractions/show", { campground });
 };
 
 module.exports.renderEditForm = async (req, res) => {
@@ -53,9 +53,9 @@ module.exports.renderEditForm = async (req, res) => {
   const campground = await Campground.findById(id);
   if (!campground) {
     req.flash("error", "Cannot find that campground!");
-    return res.redirect("/campgrounds");
+    return res.redirect("/attractions");
   }
-  res.render("campgrounds/edit", { campground });
+  res.render("attractions/edit", { campground });
 };
 
 module.exports.updateCampground = async (req, res) => {
@@ -76,12 +76,12 @@ module.exports.updateCampground = async (req, res) => {
     });
   }
   req.flash("success", "Successfully updated campground!");
-  res.redirect(`/campgrounds/${campground._id}`);
+  res.redirect(`/attractions/${campground._id}`);
 };
 
 module.exports.deleteCampground = async (req, res) => {
   const { id } = req.params;
   await Campground.findByIdAndDelete(id);
   req.flash("success", "Successfully deleted campground");
-  res.redirect("/campgrounds");
+  res.redirect("/attractions");
 };

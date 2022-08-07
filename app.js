@@ -18,7 +18,7 @@ const helmet = require("helmet");
 const mongoSanitize = require("express-mongo-sanitize");
 
 const userRoutes = require("./routes/users");
-const campgroundRoutes = require("./routes/campgrounds");
+const campgroundRoutes = require("./routes/attractions");
 const reviewRoutes = require("./routes/reviews");
 
 mongoose.connect(process.env.DB_URL, {
@@ -128,8 +128,8 @@ app.use((req, res, next) => {
 });
 
 app.use("/", userRoutes);
-app.use("/campgrounds", campgroundRoutes);
-app.use("/campgrounds/:id/reviews", reviewRoutes);
+app.use("/attractions", campgroundRoutes);
+app.use("/attractions/:id/reviews", reviewRoutes);
 
 app.get("/", (req, res) => {
   res.render("home");
