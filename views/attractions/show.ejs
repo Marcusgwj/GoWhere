@@ -59,8 +59,13 @@
           <button class="btn btn-danger">Delete</button>
         </form>
       </div>
+      <% } %> <% if(posted == 0){ %>
+      <div class="card-footer text-muted">Today</div>
+      <% } else if (posted == 1){ %>
+      <div class="card-footer text-muted"><%=posted%> day ago</div>
+      <% } else{ %>
+      <div class="card-footer text-muted"><%=posted%> days ago</div>
       <% } %>
-      <div class="card-footer text-muted">1 day ago</div>
     </div>
   </div>
   <div class="col-6">

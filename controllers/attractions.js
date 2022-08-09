@@ -27,6 +27,7 @@ module.exports.createCampground = async (req, res, next) => {
     filename: f.filename,
   }));
   campground.author = req.user._id;
+  campground.time = new Date().getTime();
   await campground.save();
   req.flash("success", "Successfully made a new campground!");
   res.redirect(`/attractions/${campground._id}`);
@@ -45,7 +46,10 @@ module.exports.showCampground = async (req, res) => {
     req.flash("error", "Cannot find that campground!");
     return res.redirect("/attractions");
   }
-  res.render("attractions/show", { campground });
+  const posted = campground.time
+    ? Math.floor((new Date().getTime() - campground.time) / (1000 * 3600 * 24))
+    : 0;
+  res.render("attractions/show", { campground, posted });
 };
 
 module.exports.renderEditForm = async (req, res) => {
@@ -60,7 +64,6 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.updateCampground = async (req, res) => {
   const { id } = req.params;
-  console.log(req.body);
   const campground = await Campground.findByIdAndUpdate(id, {
     ...req.body.campground,
   });

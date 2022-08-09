@@ -43,6 +43,7 @@ const CampgroundSchema = new Schema(
         ref: "Review",
       },
     ],
+    time: String,
   },
   opts
 );
